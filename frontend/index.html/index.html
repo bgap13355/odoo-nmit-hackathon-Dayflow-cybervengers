@@ -243,12 +243,6 @@ header{
     mask-image:radial-gradient(ellipse,black 30%,transparent 75%);
 }
 
-/*
-    This is intentionally ABSTRACT.
-    It is a decorative architectural sculpture,
-    not an HR illustration.
-*/
-
 .art{
     width:520px;
     height:520px;
@@ -258,8 +252,6 @@ header{
     transition:transform .25s ease-out;
     animation:artFloat 8s ease-in-out infinite;
 }
-
-/* large architectural slab */
 
 .slab{
     position:absolute;
@@ -279,8 +271,6 @@ header{
         45px 55px 75px rgba(0,0,0,.16);
 }
 
-/* black inner architectural plate */
-
 .plate{
     position:absolute;
     left:115px;
@@ -297,8 +287,6 @@ header{
     box-shadow:
         18px 22px 35px rgba(0,0,0,.25);
 }
-
-/* violet illuminated surface */
 
 .violet-surface{
     position:absolute;
@@ -318,8 +306,6 @@ header{
         15px 20px 30px rgba(0,0,0,.18);
 }
 
-/* white sculptural cutout */
-
 .cutout{
     position:absolute;
     left:177px;
@@ -335,8 +321,6 @@ header{
     box-shadow:
         10px 12px 25px rgba(0,0,0,.13);
 }
-
-/* central black form */
 
 .core{
     position:absolute;
@@ -354,8 +338,6 @@ header{
         10px 13px 20px rgba(0,0,0,.2);
 }
 
-/* violet light line */
-
 .light-line{
     position:absolute;
     left:254px;
@@ -370,8 +352,6 @@ header{
         rotateZ(28deg)
         translateZ(130px);
 }
-
-/* floating architectural ring */
 
 .ring{
     position:absolute;
@@ -388,8 +368,6 @@ header{
     animation:ringRotate 14s linear infinite;
 }
 
-/* small glass layer */
-
 .glass{
     position:absolute;
     left:138px;
@@ -404,8 +382,6 @@ header{
         rotateZ(28deg)
         translateZ(140px);
 }
-
-/* tiny accent detail */
 
 .accent{
     position:absolute;
@@ -646,29 +622,23 @@ header{
 /* ================= MOBILE ================= */
 
 @media(max-width:950px){
-
     .welcome{
         grid-template-columns:1fr;
         text-align:center;
     }
-
     .hero{
         padding-top:50px;
     }
-
     .eyebrow{
         justify-content:center;
     }
-
     .hero-text{
         margin-left:auto;
         margin-right:auto;
     }
-
     .buttons{
         justify-content:center;
     }
-
     .visual{
         height:570px;
         transform:scale(.72);
@@ -677,50 +647,39 @@ header{
 }
 
 @media(max-width:550px){
-
     header{
         padding:0 5vw;
     }
-
     .header-right{
         display:none;
     }
-
     .welcome{
         width:92vw;
     }
-
     .hero h1{
         font-size:58px;
         letter-spacing:-4px;
     }
-
     .buttons{
         flex-direction:column;
     }
-
     .btn{
         width:100%;
     }
-
     .visual{
         transform:scale(.48);
         margin-top:-110px;
         margin-left:-50px;
     }
-
     .auth-card{
         padding:34px 22px;
     }
-
     .auth-card h2{
         font-size:31px;
     }
-
     .otp{
         gap:5px;
     }
-
     .otp input{
         width:43px;
         height:52px;
@@ -732,41 +691,29 @@ header{
 <body>
 
 <header>
-
     <div class="logo">
         <div class="logo-box">N</div>
         <div class="logo-name">
             NOVA <span>HR</span>
         </div>
     </div>
-
     <div class="header-right">
         <span class="status-dot"></span>
         HUMAN RESOURCE MANAGEMENT SYSTEM
     </div>
-
 </header>
 
-
-<!-- =====================================================
-WELCOME
-===================================================== -->
-
+<!-- WELCOME -->
 <section id="welcome" class="screen active">
-
 <div class="welcome">
-
     <div class="hero">
-
         <div class="eyebrow">
             HUMAN RESOURCE MANAGEMENT
         </div>
-
         <h1>
             Welcome to
             <span>NOVA HR.</span>
         </h1>
-
         <p class="hero-text">
             Human resource management, reimagined for
             modern workplaces.
@@ -775,146 +722,74 @@ WELCOME
             operations together in one intelligent
             and secure environment.
         </p>
-
         <div class="buttons">
-
-            <button
-                class="btn primary"
-                onclick="openScreen('signup')">
+            <button class="btn primary" onclick="openScreen('signup')">
                 CREATE AN ACCOUNT →
             </button>
-
-            <button
-                class="btn secondary"
-                onclick="openScreen('login')">
+            <button class="btn secondary" onclick="openScreen('login')">
                 SIGN IN
             </button>
-
         </div>
-
     </div>
-
-
-    <!-- ABSTRACT DECORATIVE 3D ART -->
 
     <div class="visual" id="visual">
-
         <div class="glow"></div>
-
         <div class="floor"></div>
-
         <div class="art" id="art">
-
             <div class="slab"></div>
-
             <div class="plate"></div>
-
             <div class="violet-surface"></div>
-
             <div class="cutout"></div>
-
             <div class="core"></div>
-
             <div class="light-line"></div>
-
             <div class="ring"></div>
-
             <div class="glass"></div>
-
             <div class="accent"></div>
-
         </div>
-
     </div>
-
 </div>
-
 </section>
 
-
-<!-- =====================================================
-LOGIN
-===================================================== -->
-
+<!-- LOGIN -->
 <section id="login" class="screen">
-
 <div class="auth-page">
-
 <div class="auth-card">
-
-    <button
-        class="back"
-        onclick="openScreen('welcome')">
+    <button class="back" onclick="openScreen('welcome')">
         ← BACK TO HOME
     </button>
-
     <div class="eyebrow">
         SECURE ACCESS
     </div>
-
     <h2>Welcome back.</h2>
-
     <p class="description">
         Sign in to access your NOVA HR workspace.
     </p>
 
     <form onsubmit="handleLogin(event)">
-
         <div class="input-group">
-
             <label>EMPLOYEE EMAIL</label>
-
             <div class="input-wrap">
-
-                <input
-                    id="loginEmail"
-                    type="email"
-                    placeholder="name@company.com"
-                    required>
-
+                <input id="loginEmail" type="email" placeholder="name@company.com" required>
             </div>
-
         </div>
 
-
         <div class="input-group">
-
             <label>PASSWORD</label>
-
             <div class="input-wrap">
-
-                <input
-                    id="loginPassword"
-                    type="password"
-                    placeholder="Enter your password"
-                    required>
-
-                <button
-                    type="button"
-                    class="eye"
-                    onclick="togglePassword('loginPassword',this)"
-                    aria-label="Show password">
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.8">
+                <input id="loginPassword" type="password" placeholder="Enter your password" required>
+                <button type="button" class="eye" onclick="togglePassword('loginPassword',this)" aria-label="Show password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/>
                         <circle cx="12" cy="12" r="2.7"/>
                     </svg>
-
                 </button>
-
             </div>
-
         </div>
-
 
         <button class="auth-submit" type="submit">
             SIGN IN →
         </button>
-
     </form>
-
 
     <div class="switch">
         Don't have an account?
@@ -922,150 +797,72 @@ LOGIN
             Create an account
         </button>
     </div>
-
 </div>
-
 </div>
-
 </section>
 
-
-<!-- =====================================================
-SIGNUP
-===================================================== -->
-
+<!-- SIGNUP -->
 <section id="signup" class="screen">
-
 <div class="auth-page">
-
 <div class="auth-card">
-
-    <button
-        class="back"
-        onclick="openScreen('welcome')">
+    <button class="back" onclick="openScreen('welcome')">
         ← BACK TO HOME
     </button>
-
     <div class="eyebrow">
         JOIN NOVA HR
     </div>
-
     <h2>Create your account.</h2>
-
     <p class="description">
         Create your NOVA HR employee account.
     </p>
 
     <form onsubmit="handleSignup(event)">
-
         <div class="input-group">
-
             <label>FULL NAME</label>
-
             <div class="input-wrap">
-
-                <input
-                    id="fullName"
-                    type="text"
-                    placeholder="Your full name"
-                    required>
-
+                <input id="fullName" type="text" placeholder="Your full name" required>
             </div>
-
         </div>
 
-
         <div class="input-group">
-
             <label>EMPLOYEE EMAIL</label>
-
             <div class="input-wrap">
-
-                <input
-                    id="signupEmail"
-                    type="email"
-                    placeholder="name@company.com"
-                    required>
-
+                <input id="signupEmail" type="email" placeholder="name@company.com" required>
             </div>
-
         </div>
 
-
         <div class="input-group">
-
             <label>PASSWORD</label>
-
             <div class="input-wrap">
-
-                <input
-                    id="signupPassword"
-                    type="password"
-                    placeholder="Create a password"
-                    required>
-
-                <button
-                    type="button"
-                    class="eye"
-                    onclick="togglePassword('signupPassword',this)"
-                    aria-label="Show password">
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.8">
+                <input id="signupPassword" type="password" placeholder="Create a password" required>
+                <button type="button" class="eye" onclick="togglePassword('signupPassword',this)" aria-label="Show password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/>
                         <circle cx="12" cy="12" r="2.7"/>
                     </svg>
-
                 </button>
-
             </div>
-
             <div id="passwordError" class="error"></div>
-
         </div>
-
 
         <div class="input-group">
-
             <label>CONFIRM PASSWORD</label>
-
             <div class="input-wrap">
-
-                <input
-                    id="confirmPassword"
-                    type="password"
-                    placeholder="Confirm your password"
-                    required>
-
-                <button
-                    type="button"
-                    class="eye"
-                    onclick="togglePassword('confirmPassword',this)"
-                    aria-label="Show password">
-
-                    <svg viewBox="0 0 24 24" fill="none"
-                         stroke="currentColor"
-                         stroke-width="1.8">
+                <input id="confirmPassword" type="password" placeholder="Confirm your password" required>
+                <button type="button" class="eye" onclick="togglePassword('confirmPassword',this)" aria-label="Show password">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/>
                         <circle cx="12" cy="12" r="2.7"/>
                     </svg>
-
                 </button>
-
             </div>
-
             <div id="confirmError" class="error"></div>
-
         </div>
-
 
         <button class="auth-submit" type="submit">
             CREATE ACCOUNT →
         </button>
-
     </form>
-
 
     <div class="switch">
         Already have an account?
@@ -1073,384 +870,211 @@ SIGNUP
             Sign in
         </button>
     </div>
-
 </div>
-
 </div>
-
 </section>
 
-
-<!-- =====================================================
-VERIFICATION
-===================================================== -->
-
+<!-- VERIFICATION -->
 <section id="verification" class="screen">
-
 <div class="auth-page">
-
 <div class="auth-card verify">
-
-    <button
-        class="back"
-        onclick="openScreen('signup')">
+    <button class="back" onclick="openScreen('signup')">
         ← BACK
     </button>
-
     <div class="eyebrow">
         EMAIL VERIFICATION
     </div>
-
     <h2>Verify your email.</h2>
-
     <p class="description">
-        Enter the six-digit verification code sent
-        to your registered email address.
+        Enter the six-digit verification code sent to your registered email address.
     </p>
 
-
     <div class="otp">
-
         <input id="otp1" maxlength="1" inputmode="numeric">
         <input id="otp2" maxlength="1" inputmode="numeric">
         <input id="otp3" maxlength="1" inputmode="numeric">
         <input id="otp4" maxlength="1" inputmode="numeric">
         <input id="otp5" maxlength="1" inputmode="numeric">
         <input id="otp6" maxlength="1" inputmode="numeric">
-
     </div>
 
-
-    <button
-        class="auth-submit"
-        onclick="verifyEmail()">
+    <button class="auth-submit" onclick="verifyEmail()">
         VERIFY EMAIL →
     </button>
-
 
     <div class="switch">
         Didn't receive the code?
         <button onclick="resendCode()">Resend</button>
     </div>
-
 </div>
-
 </div>
-
 </section>
 
-
-<!-- =====================================================
-SUCCESS
-===================================================== -->
-
+<!-- SUCCESS -->
 <section id="success" class="screen">
-
 <div class="auth-page">
-
 <div class="auth-card success">
-
     <div class="success-icon">✓</div>
-
     <h2>You're verified.</h2>
-
     <p class="description">
-        Your identity has been successfully verified.
-        Welcome to NOVA HR.
+        Your identity has been successfully verified. Welcome to NOVA HR.
     </p>
-
-    <button
-        class="auth-submit"
-        onclick="openScreen('welcome')">
+    <button class="auth-submit" onclick="redirectToDashboard()">
         ENTER NOVA HR →
     </button>
-
 </div>
-
 </div>
-
 </section>
 
-
 <script>
-
-/* ================= SCREEN NAVIGATION ================= */
+let pendingUserData = null;
 
 function openScreen(id){
-
-    document.querySelectorAll(".screen")
-        .forEach(screen=>{
-            screen.classList.remove("active");
-        });
-
+    document.querySelectorAll(".screen").forEach(screen=>{
+        screen.classList.remove("active");
+    });
     const selected=document.getElementById(id);
-
     if(selected){
         selected.classList.add("active");
-        window.scrollTo({
-            top:0,
-            behavior:"smooth"
-        });
+        window.scrollTo({ top:0, behavior:"smooth" });
     }
 }
-
-
-/* ================= PASSWORD SHOW/HIDE ================= */
 
 function togglePassword(id,button){
-
     const input=document.getElementById(id);
-
     if(input.type==="password"){
-
         input.type="text";
-
-        button.innerHTML=`
-        <svg viewBox="0 0 24 24" fill="none"
-             stroke="currentColor"
-             stroke-width="1.8">
-            <path d="M3 3l18 18"/>
-            <path d="M10.6 5.9A10.7 10.7 0 0 1 12 5.8c6.5 0 10 6.2 10 6.2a18.7 18.7 0 0 1-3.1 3.8"/>
-            <path d="M6.2 6.2C3.5 8.2 2 12 2 12s3.5 6 10 6c1.3 0 2.5-.2 3.5-.6"/>
-            <path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/>
-        </svg>`;
-
+        button.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3l18 18"/><path d="M10.6 5.9A10.7 10.7 0 0 1 12 5.8c6.5 0 10 6.2 10 6.2a18.7 18.7 0 0 1-3.1 3.8"/><path d="M6.2 6.2C3.5 8.2 2 12 2 12s3.5 6 10 6c1.3 0 2.5-.2 3.5-.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/></svg>`;
     }else{
-
         input.type="password";
-
-        button.innerHTML=`
-        <svg viewBox="0 0 24 24" fill="none"
-             stroke="currentColor"
-             stroke-width="1.8">
-            <path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/>
-            <circle cx="12" cy="12" r="2.7"/>
-        </svg>`;
-
+        button.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.7"/></svg>`;
     }
 }
 
-
-/* ================= LOGIN ================= */
-
-function handleLogin(event){
-
+async function handleLogin(event){
     event.preventDefault();
+    const email=document.getElementById("loginEmail").value.trim();
+    const password=document.getElementById("loginPassword").value;
 
-    const email=document
-        .getElementById("loginEmail")
-        .value.trim();
-
-    const password=document
-        .getElementById("loginPassword")
-        .value;
-
-    if(!email || !password){
-        return;
+    try {
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+        });
+        const data = await response.json();
+        if(response.ok){
+            pendingUserData = { email };
+            openScreen("verification");
+        } else {
+            alert(data.error || "Login failed");
+        }
+    } catch(err) {
+        alert("Server connection failed. Make sure your backend is running.");
     }
-
-    openScreen("verification");
 }
 
-
-/* ================= SIGNUP ================= */
-
-function handleSignup(event){
-
+async function handleSignup(event){
     event.preventDefault();
+    const name=document.getElementById("fullName").value.trim();
+    const email=document.getElementById("signupEmail").value.trim();
+    const password=document.getElementById("signupPassword").value;
+    const confirm=document.getElementById("confirmPassword").value;
 
-    const name=document
-        .getElementById("fullName")
-        .value.trim();
-
-    const email=document
-        .getElementById("signupEmail")
-        .value.trim();
-
-    const password=document
-        .getElementById("signupPassword")
-        .value;
-
-    const confirm=document
-        .getElementById("confirmPassword")
-        .value;
-
-    const passwordError=
-        document.getElementById("passwordError");
-
-    const confirmError=
-        document.getElementById("confirmError");
-
+    const passwordError=document.getElementById("passwordError");
+    const confirmError=document.getElementById("confirmError");
     passwordError.classList.remove("show");
     confirmError.classList.remove("show");
 
-    if(!name || !email){
-        return;
-    }
-
     if(password.length<8){
-
-        passwordError.textContent=
-            "Password must contain at least 8 characters.";
-
+        passwordError.textContent="Password must contain at least 8 characters.";
         passwordError.classList.add("show");
-
         return;
     }
-
     if(!/[A-Z]/.test(password)){
-
-        passwordError.textContent=
-            "Password needs at least one uppercase letter.";
-
+        passwordError.textContent="Password needs at least one uppercase letter.";
         passwordError.classList.add("show");
-
         return;
     }
-
     if(!/[0-9]/.test(password)){
-
-        passwordError.textContent=
-            "Password needs at least one number.";
-
+        passwordError.textContent="Password needs at least one number.";
         passwordError.classList.add("show");
-
         return;
     }
-
     if(password!==confirm){
-
-        confirmError.textContent=
-            "Passwords do not match.";
-
+        confirmError.textContent="Passwords do not match.";
         confirmError.classList.add("show");
-
         return;
     }
 
-    openScreen("verification");
+    try {
+        const response = await fetch('http://localhost:5000/api/auth/signup', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, password })
+        });
+        const data = await response.json();
+        if(response.ok){
+            pendingUserData = { name, email, password };
+            openScreen("verification");
+        } else {
+            alert(data.error || "Signup failed");
+        }
+    } catch(err) {
+        alert("Server connection failed. Make sure your backend is running.");
+    }
 }
 
-
-/* ================= OTP ================= */
-
-const otpInputs=
-    document.querySelectorAll(".otp input");
-
+const otpInputs=document.querySelectorAll(".otp input");
 otpInputs.forEach((input,index)=>{
-
     input.addEventListener("input",()=>{
-
-        input.value=
-            input.value.replace(/[^0-9]/g,"");
-
-        if(input.value &&
-           index<otpInputs.length-1){
-
+        input.value=input.value.replace(/[^0-9]/g,"");
+        if(input.value && index<otpInputs.length-1){
             otpInputs[index+1].focus();
         }
-
     });
-
     input.addEventListener("keydown",(event)=>{
-
-        if(event.key==="Backspace" &&
-           !input.value &&
-           index>0){
-
+        if(event.key==="Backspace" && !input.value && index>0){
             otpInputs[index-1].focus();
         }
-
     });
-
 });
 
-
-/* ================= VERIFY ================= */
-
 function verifyEmail(){
-
     let code="";
-
     for(let i=1;i<=6;i++){
-
-        code+=
-            document.getElementById("otp"+i).value;
-
+        code+=document.getElementById("otp"+i).value;
     }
-
     if(code.length!==6){
-
-        alert(
-            "Please enter the complete six-digit verification code."
-        );
-
+        alert("Please enter the complete six-digit verification code.");
         return;
     }
-
     openScreen("success");
 }
 
-
-/* ================= RESEND ================= */
-
 function resendCode(){
-
-    alert(
-        "A new verification code has been requested."
-    );
+    alert("A new verification code has been requested.");
 }
 
+function redirectToDashboard(){
+    window.location.href = "dashboard.html";
+}
 
-/* ================= 3D MOUSE PARALLAX ================= */
-
-const visual=
-    document.getElementById("visual");
-
-const art=
-    document.getElementById("art");
-
+const visual=document.getElementById("visual");
+const art=document.getElementById("art");
 if(visual && art){
-
     visual.addEventListener("mousemove",(event)=>{
-
-        const rect=
-            visual.getBoundingClientRect();
-
-        const x=
-            (event.clientX-rect.left)/
-            rect.width-.5;
-
-        const y=
-            (event.clientY-rect.top)/
-            rect.height-.5;
-
-        const rotateY=
-            x*8;
-
-        const rotateX=
-            -y*6;
-
+        const rect=visual.getBoundingClientRect();
+        const x=(event.clientX-rect.left)/rect.width-.5;
+        const y=(event.clientY-rect.top)/rect.height-.5;
         art.style.animationPlayState="paused";
-
-        art.style.transform=
-            `rotateX(${7+rotateX}deg)
-             rotateY(${-16+rotateY}deg)
-             translateY(-4px)`;
-
+        art.style.transform=`rotateX(${7 + (-y*6)}deg) rotateY(${-16 + (x*8)}deg) translateY(-4px)`;
     });
-
-
     visual.addEventListener("mouseleave",()=>{
-
         art.style.animationPlayState="running";
-
         art.style.transform="";
-
     });
-
 }
-
 </script>
 
 </body>
