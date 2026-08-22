@@ -1,0 +1,3101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>NOVA HR — HR Dashboard</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+:root{
+ --black:#16151a;
+ --black2:#211f27;
+ --violet:#7c3aed;
+ --violet2:#a78bfa;
+ --lav:#f3efff;
+ --white:#fff;
+ --bg:#fafafa;
+ --line:#e7e5eb;
+ --text:#18171c;
+ --muted:#77737f;
+ --green:#16834b;
+ --red:#d93636;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+
+html{scroll-behavior:smooth}
+
+body{
+ font-family:Inter,sans-serif;
+ background:var(--bg);
+ color:var(--text);
+}
+
+button,input,select{font:inherit}
+button{cursor:pointer}
+
+.app{min-height:100vh}
+
+.sidebar{
+ position:fixed;
+ z-index:100;
+ left:0;
+ top:0;
+ width:245px;
+ height:100vh;
+ background:var(--black);
+ color:white;
+ padding:25px 17px;
+ transform:translateX(-100%);
+ transition:.3s;
+ box-shadow:15px 0 40px #0002;
+}
+
+.sidebar.open{transform:translateX(0)}
+
+.logo{
+ display:flex;
+ align-items:center;
+ gap:11px;
+ padding:0 10px;
+ margin-bottom:45px
+}
+
+.logo-box{
+ width:39px;
+ height:39px;
+ border-radius:10px;
+ background:white;
+ color:#111;
+ display:grid;
+ place-items:center;
+ font-weight:900;
+ box-shadow:5px 5px 0 var(--violet)
+}
+
+.logo b{
+ font-size:14px;
+ letter-spacing:2px
+}
+
+.logo span{color:var(--violet2)}
+
+.nav-title{
+ font-size:8px;
+ color:#77737f;
+ letter-spacing:2px;
+ font-weight:800;
+ padding:0 13px 12px
+}
+
+.nav{display:grid;gap:5px}
+
+.nav button{
+ height:47px;
+ border:0;
+ border-radius:11px;
+ background:#19181d;
+ color:#aaa7b0;
+ display:flex;
+ align-items:center;
+ gap:13px;
+ padding:0 13px;
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:1px;
+ transition:.2s
+}
+
+.nav button:hover{
+ background:#29262f;
+ color:white
+}
+
+.nav button.active{
+ background:white;
+ color:#111;
+ box-shadow:4px 4px 0 var(--violet)
+}
+
+.nav svg{width:17px;height:17px}
+
+.side-bottom{
+ position:absolute;
+ bottom:20px;
+ left:17px;
+ right:17px
+}
+
+.rituside{
+ display:flex;
+ align-items:center;
+ gap:10px;
+ background:#211f27;
+ border-radius:13px;
+ padding:11px;
+ margin-bottom:9px;
+ cursor:pointer
+}
+
+/* RITU PROFILE VISUAL */
+.avatar{
+ width:38px;
+ height:38px;
+ border-radius:50%;
+ position:relative;
+ overflow:hidden;
+ background:
+ radial-gradient(circle at 50% 32%,#6b3f2a 0 18%,transparent 19%),
+ radial-gradient(circle at 50% 36%,#d9a27f 0 22%,transparent 23%),
+ radial-gradient(ellipse at 50% 78%,#7c3aed 0 34%,transparent 35%),
+ linear-gradient(145deg,#eeeaff,#dcd4ff);
+ border:2px solid #fff;
+}
+
+.avatar:before{
+ content:"";
+ position:absolute;
+ width:32px;
+ height:16px;
+ left:3px;
+ top:4px;
+ border-radius:50% 50% 35% 35%;
+ background:#4b2d24;
+}
+
+.avatar:after{
+ content:"";
+ position:absolute;
+ width:24px;
+ height:8px;
+ left:7px;
+ bottom:4px;
+ border-radius:50%;
+ background:#7c3aed;
+}
+
+.rituside b{font-size:10px}
+.rituside small{
+ display:block;
+ color:#85818c;
+ font-size:8px;
+ margin-top:3px
+}
+
+.signout{
+ width:100%;
+ height:40px;
+ border:1px solid #38353e;
+ background:#19181d;
+ color:#aaa;
+ border-radius:9px;
+ font-size:8px;
+ font-weight:800
+}
+
+.main{min-height:100vh}
+
+.top{
+ height:78px;
+ background:#fff;
+ border-bottom:1px solid var(--line);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 35px;
+ position:sticky;
+ top:0;
+ z-index:50
+}
+
+.menu{
+ width:39px;
+ height:39px;
+ border:0;
+ border-radius:10px;
+ background:var(--black);
+ color:white;
+ display:grid;
+ place-items:center
+}
+
+.menu span{
+ font-size:21px;
+ line-height:0
+}
+
+.top-right{
+ display:flex;
+ align-items:center;
+ gap:15px
+}
+
+.add{
+ border:0;
+ background:var(--violet);
+ color:white;
+ border-radius:9px;
+ padding:11px 16px;
+ font-size:9px;
+ font-weight:800;
+ box-shadow:4px 4px 0 #ded3ff
+}
+
+.location{
+ font-size:9px;
+ font-weight:800;
+ letter-spacing:1.5px;
+ color:#777
+}
+
+.page{
+ display:none;
+ min-height:calc(100vh - 78px);
+ animation:in .3s ease
+}
+
+.page.active{display:block}
+
+@keyframes in{
+ from{opacity:0;transform:translateY(8px)}
+ to{opacity:1;transform:none}
+}
+
+.home{
+ min-height:calc(100vh - 78px);
+ padding:65px 7vw 0;
+ position:relative;
+ overflow:hidden
+}
+
+.home-copy{
+ position:relative;
+ z-index:4;
+ max-width:650px
+}
+
+.eyebrow{
+ font-size:9px;
+ letter-spacing:2.5px;
+ color:var(--violet);
+ font-weight:900;
+ margin-bottom:18px
+}
+
+.home h1{
+ font-size:clamp(55px,7vw,100px);
+ line-height:.88;
+ letter-spacing:-6px;
+ font-weight:900;
+ margin-bottom:22px
+}
+
+.home h1 span{color:var(--violet)}
+
+.home p{
+ max-width:480px;
+ color:var(--muted);
+ font-size:13px;
+ line-height:1.8
+}
+
+.scene{
+ position:absolute;
+ width:850px;
+ height:440px;
+ left:50%;
+ transform:translateX(-25%);
+ bottom:-5px;
+ perspective:1200px
+}
+
+.glow{
+ position:absolute;
+ width:500px;
+ height:270px;
+ left:180px;
+ top:90px;
+ background:radial-gradient(circle,#8b5cf633,transparent 68%);
+ filter:blur(18px)
+}
+
+.wall{
+ position:absolute;
+ width:570px;
+ height:280px;
+ left:145px;
+ top:40px;
+ border:1px solid #0000000d;
+ border-radius:28px;
+ background:linear-gradient(135deg,#fff,#f0edf6);
+ transform:rotateY(-12deg) rotateX(5deg);
+ box-shadow:25px 30px 70px #0000000c
+}
+
+.monitor{
+ position:absolute;
+ width:420px;
+ height:255px;
+ left:220px;
+ top:75px;
+ transform:rotateY(-8deg) rotateX(3deg);
+ animation:float 5s ease-in-out infinite;
+ z-index:3
+}
+
+@keyframes float{
+ 50%{
+  transform:rotateY(-8deg) rotateX(3deg) translateY(-10px)
+ }
+}
+
+.screen{
+ width:100%;
+ height:100%;
+ padding:9px;
+ border-radius:17px;
+ background:#17151a;
+ box-shadow:25px 30px 40px #0003
+}
+
+.screenin{
+ height:100%;
+ border-radius:10px;
+ background:#fff;
+ overflow:hidden
+}
+
+.screenhead{
+ height:28px;
+ border-bottom:1px solid var(--line);
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ padding:0 10px
+}
+
+.screenhead b{
+ font-size:6px;
+ letter-spacing:1px
+}
+
+.screenhead span{color:var(--violet)}
+
+.screenbody{
+ display:grid;
+ grid-template-columns:58px 1fr;
+ height:calc(100% - 28px)
+}
+
+.sside{
+ background:#18171b;
+ padding:10px 6px
+}
+
+.sside i{
+ display:block;
+ height:5px;
+ background:#454149;
+ border-radius:5px;
+ margin-bottom:9px
+}
+
+.sside i:first-child{background:var(--violet)}
+
+.scontent{padding:13px}
+
+.scontent h3{
+ font-size:12px;
+ margin-bottom:12px
+}
+
+.cards{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:6px
+}
+
+.mini{
+ height:40px;
+ border:1px solid var(--line);
+ border-radius:6px;
+ padding:6px
+}
+
+.mini i{
+ display:block;
+ width:20px;
+ height:4px;
+ background:#ddd;
+ border-radius:4px;
+ margin-bottom:6px
+}
+
+.mini i:first-child{background:var(--violet)}
+
+.chart{
+ height:65px;
+ border:1px solid var(--line);
+ margin-top:8px;
+ border-radius:7px;
+ position:relative
+}
+
+.chart:after{
+ content:"";
+ position:absolute;
+ left:12px;
+ right:12px;
+ bottom:14px;
+ height:28px;
+ border-bottom:2px solid var(--violet);
+ transform:skewY(-8deg)
+}
+
+.stand{
+ position:absolute;
+ left:185px;
+ bottom:-43px;
+ width:50px;
+ height:48px;
+ background:#29272c;
+ clip-path:polygon(30% 0,70% 0,100% 100%,0 100%)
+}
+
+.base{
+ position:absolute;
+ left:135px;
+ bottom:-49px;
+ width:150px;
+ height:10px;
+ border-radius:50%;
+ background:#222
+}
+
+.people{
+ position:absolute;
+ left:60px;
+ bottom:45px;
+ display:flex;
+ gap:22px;
+ align-items:end;
+ z-index:4
+}
+
+.person{
+ width:48px;
+ height:95px;
+ position:relative
+}
+
+.person:before{
+ content:"";
+ position:absolute;
+ top:0;
+ left:13px;
+ width:23px;
+ height:23px;
+ border-radius:50%;
+ background:#c8c8cc
+}
+
+.person:after{
+ content:"";
+ position:absolute;
+ bottom:0;
+ left:5px;
+ width:38px;
+ height:65px;
+ border-radius:18px 18px 7px 7px;
+ background:#dedee2
+}
+
+.person:nth-child(2){height:115px}
+.person:nth-child(3){height:85px}
+.person:nth-child(4){height:105px}
+
+.desk{
+ position:absolute;
+ left:55px;
+ bottom:25px;
+ width:700px;
+ height:55px;
+ border-radius:15px;
+ background:linear-gradient(135deg,#fff,#d8d7dc);
+ transform:skewX(-8deg);
+ box-shadow:20px 20px 35px #0002
+}
+
+.keyboard{
+ position:absolute;
+ left:390px;
+ bottom:80px;
+ width:155px;
+ height:43px;
+ background:#222;
+ border-radius:8px;
+ transform:rotateX(55deg);
+ z-index:5
+}
+
+.wrap{
+ max-width:1400px;
+ margin:auto;
+ padding:42px 5vw 70px
+}
+
+.heading{
+ display:flex;
+ justify-content:space-between;
+ align-items:end;
+ margin-bottom:28px
+}
+
+.heading h2{
+ font-size:45px;
+ letter-spacing:-3px
+}
+
+.heading p{
+ font-size:11px;
+ color:var(--muted);
+ max-width:390px;
+ line-height:1.7
+}
+
+.grid{
+ display:grid;
+ gap:15px
+}
+
+.employee-grid{
+ grid-template-columns:repeat(3,1fr)
+}
+
+.card{
+ background:white;
+ border:1px solid var(--line);
+ border-radius:18px;
+ padding:22px;
+ box-shadow:8px 12px 30px #00000008
+}
+
+.emp-top{
+ display:flex;
+ gap:13px;
+ align-items:center;
+ margin-bottom:18px
+}
+
+.emp-avatar{
+ width:46px;
+ height:46px;
+ border-radius:50%;
+ background:var(--lav);
+ border:2px solid #ded3ff;
+ display:grid;
+ place-items:center;
+ font-weight:800;
+ color:var(--violet)
+}
+
+.emp-name{
+ font-weight:900;
+ font-size:14px
+}
+
+.emp-role{
+ font-size:9px;
+ color:var(--muted);
+ margin-top:4px
+}
+
+.status{
+ font-size:8px;
+ font-weight:900;
+ padding:6px 9px;
+ border-radius:7px;
+ background:#eeeef0
+}
+
+.present{
+ color:var(--green);
+ background:#e8f7ef
+}
+
+.pending{
+ color:#9a6a00;
+ background:#fff5d9
+}
+
+.absent{
+ color:var(--red);
+ background:#fee
+}
+
+.details{
+ display:grid;
+ gap:8px
+}
+
+.details div{
+ font-size:9px;
+ color:#777
+}
+
+.details b{
+ color:#222;
+ margin-left:4px
+}
+
+.actions{
+ display:flex;
+ gap:7px;
+ margin-top:16px
+}
+
+.btn{
+ border:1px solid var(--line);
+ background:white;
+ border-radius:8px;
+ padding:9px 12px;
+ font-size:8px;
+ font-weight:900
+}
+
+.btn.primary{
+ background:var(--violet);
+ border-color:var(--violet);
+ color:white
+}
+
+.btn.primary:hover{
+ background:#6d28d9
+}
+
+.see{
+ margin-top:18px;
+ text-align:center
+}
+
+.see button{
+ border:0;
+ background:transparent;
+ color:var(--violet);
+ font-weight:900;
+ font-size:9px
+}
+
+/* ATTENDANCE */
+.att-table,.report-table{
+ width:100%;
+ border-collapse:collapse;
+ background:white;
+ border:1px solid var(--line);
+ border-radius:15px;
+ overflow:hidden
+}
+
+th,td{
+ padding:15px;
+ border-bottom:1px solid var(--line);
+ text-align:left;
+ font-size:9px
+}
+
+th{
+ font-size:8px;
+ letter-spacing:1px;
+ color:#777;
+ background:#faf9fc
+}
+
+td input,td select{
+ border:1px solid var(--line);
+ padding:7px;
+ border-radius:6px;
+ width:100%;
+ font-size:9px
+}
+
+.save{
+ background:var(--violet);
+ color:white;
+ border:0;
+ padding:7px 10px;
+ border-radius:6px;
+ font-size:8px;
+ font-weight:800;
+ transition:.25s
+}
+
+.save.saved{
+ background:transparent;
+ color:#777;
+ border:1px solid var(--line);
+ box-shadow:none
+}
+
+/* LEAVE */
+.leave-grid{
+ grid-template-columns:repeat(3,1fr);
+ margin-bottom:20px
+}
+
+.leave-card strong{
+ font-size:34px
+}
+
+.leave-card small{
+ display:block;
+ color:var(--muted);
+ font-size:8px;
+ font-weight:800;
+ margin-top:7px
+}
+
+.leave-row{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ border-bottom:1px solid var(--line);
+ padding:18px 0
+}
+
+.leave-row:last-child{border:0}
+
+.approve{
+ background:#16834b;
+ color:white;
+ border:0;
+ padding:9px 13px;
+ border-radius:7px;
+ font-size:8px;
+ font-weight:900
+}
+
+.reject{
+ background:#fee;
+ border:0;
+ color:var(--red);
+ padding:9px 13px;
+ border-radius:7px;
+ font-size:8px;
+ font-weight:900
+}
+
+.done{
+ background:transparent!important;
+ color:#777!important;
+ border:1px solid var(--line)!important
+}
+
+/* PAYROLL */
+.payroll-grid{
+ grid-template-columns:1.4fr 1fr
+}
+
+.salary{
+ background:var(--black);
+ color:white;
+ min-height:230px;
+ border-radius:22px;
+ padding:28px;
+ box-shadow:10px 15px 35px #0002
+}
+
+.salary small{
+ color:#999;
+ font-size:8px;
+ font-weight:800
+}
+
+.salary h3{
+ font-size:48px;
+ margin:28px 0 10px
+}
+
+.salary .salary-person{
+ font-size:11px;
+ color:var(--violet2);
+ font-weight:800
+}
+
+.salary p{
+ font-size:9px;
+ color:#999;
+ margin-top:18px
+}
+
+.edit-pay{
+ display:grid;
+ gap:11px
+}
+
+.edit-pay label{
+ font-size:8px;
+ font-weight:900
+}
+
+.edit-pay input,
+.edit-pay select{
+ padding:11px;
+ border:1px solid var(--line);
+ border-radius:8px
+}
+
+/* REPORTS */
+.report-options{
+ display:flex;
+ gap:10px;
+ flex-wrap:wrap;
+ margin-bottom:22px
+}
+
+.report-box{
+ min-height:300px;
+ padding:30px;
+ background:white;
+ border:1px solid var(--line);
+ border-radius:18px
+}
+
+.report-paper{
+ display:none;
+ background:white;
+ width:794px;
+ min-height:1123px;
+ margin:auto;
+ padding:45px;
+ box-shadow:0 10px 40px #0002
+}
+
+.report-paper.show{display:block}
+
+.report-paper h1{
+ font-size:28px;
+ margin-bottom:8px
+}
+
+.report-paper p{
+ font-size:10px;
+ color:#666;
+ margin-bottom:25px
+}
+
+.report-paper h3{
+ margin:22px 0 10px;
+ font-size:13px
+}
+
+/* ANALYTICS */
+.analytics{
+ grid-template-columns:1fr 1fr
+}
+
+.graph-card{
+ padding:25px;
+ background:white;
+ border:1px solid var(--line);
+ border-radius:18px
+}
+
+.graph-card h3{
+ font-size:13px;
+ margin-bottom:20px
+}
+
+.bargraph{
+ height:220px;
+ display:flex;
+ align-items:end;
+ gap:13px;
+ border-bottom:1px solid #ccc;
+ padding:0 15px
+}
+
+.bar{
+ flex:1;
+ background:linear-gradient(#a78bfa,var(--violet));
+ border-radius:7px 7px 0 0;
+ position:relative
+}
+
+.bar span{
+ position:absolute;
+ bottom:-22px;
+ font-size:7px;
+ color:#777;
+ left:50%;
+ transform:translateX(-50%)
+}
+
+.analytics-data{
+ margin-top:35px;
+ font-size:9px;
+ color:#666;
+ line-height:2
+}
+
+/* MODALS */
+.modal{
+ position:fixed;
+ inset:0;
+ background:#0008;
+ z-index:300;
+ display:none;
+ overflow:auto;
+ padding:30px
+}
+
+.modal.show{display:block}
+
+.modal-box{
+ background:white;
+ min-height:calc(100vh - 60px);
+ border-radius:22px;
+ padding:35px;
+ position:relative
+}
+
+.close{
+ position:absolute;
+ right:25px;
+ top:22px;
+ border:0;
+ background:#f1f0f3;
+ width:35px;
+ height:35px;
+ border-radius:50%;
+ font-weight:900
+}
+
+.profile-head{
+ display:flex;
+ align-items:center;
+ gap:22px;
+ margin-bottom:30px
+}
+
+.profile-head .avatar{
+ width:90px;
+ height:90px
+}
+
+.profile-head h2{
+ font-size:35px
+}
+
+.profile-head p{
+ color:var(--muted);
+ font-size:11px;
+ margin-top:6px
+}
+
+.profile-details{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:12px
+}
+
+.profile-details .card{
+ box-shadow:none
+}
+
+.profile-details label{
+ display:block;
+ font-size:8px;
+ font-weight:900;
+ margin-bottom:7px
+}
+
+.profile-details input,
+.profile-details select{
+ width:100%;
+ padding:10px;
+ border:1px solid var(--line);
+ border-radius:8px;
+ font-size:10px
+}
+
+.profile-attendance{
+ margin-top:25px
+}
+
+/* RITU CHECK-IN */
+.ritu-attendance-actions{
+ display:flex;
+ gap:10px;
+ margin:18px 0
+}
+
+.check-btn{
+ border:0;
+ border-radius:9px;
+ padding:11px 17px;
+ font-size:9px;
+ font-weight:900;
+ color:white;
+ background:var(--violet)
+}
+
+.check-btn.out{
+ background:var(--black)
+}
+
+.time-display{
+ display:flex;
+ gap:20px;
+ flex-wrap:wrap;
+ margin-bottom:20px
+}
+
+.time-box{
+ padding:14px 18px;
+ background:var(--lav);
+ border:1px solid #ded3ff;
+ border-radius:10px
+}
+
+.time-box small{
+ display:block;
+ font-size:7px;
+ color:#777;
+ font-weight:900;
+ margin-bottom:5px
+}
+
+.time-box b{
+ font-size:13px;
+ color:var(--violet)
+}
+
+/* EDIT MODAL */
+.edit-modal-box{
+ max-width:850px;
+ min-height:auto;
+ margin:auto
+}
+
+.edit-grid{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:14px
+}
+
+.edit-field label{
+ display:block;
+ font-size:8px;
+ font-weight:900;
+ margin-bottom:7px
+}
+
+.edit-field input,
+.edit-field select{
+ width:100%;
+ padding:11px;
+ border:1px solid var(--line);
+ border-radius:8px;
+ outline:none
+}
+
+.edit-field input:focus,
+.edit-field select:focus{
+ border-color:var(--violet);
+ box-shadow:0 0 0 3px #7c3aed18
+}
+
+.edit-actions{
+ display:flex;
+ justify-content:flex-end;
+ gap:9px;
+ margin-top:20px
+}
+
+.toast{
+ position:fixed;
+ right:25px;
+ bottom:25px;
+ background:#18171c;
+ color:white;
+ padding:14px 18px;
+ border-radius:9px;
+ font-size:9px;
+ font-weight:800;
+ z-index:600;
+ display:none
+}
+
+.toast.show{display:block}
+
+.confirm{
+ position:fixed;
+ inset:0;
+ background:#0008;
+ z-index:500;
+ display:none;
+ place-items:center
+}
+
+.confirm.show{display:grid}
+
+.confirm-box{
+ background:white;
+ padding:30px;
+ border-radius:18px;
+ width:min(380px,90%)
+}
+
+.confirm-box h3{
+ font-size:20px;
+ margin-bottom:8px
+}
+
+.confirm-box p{
+ font-size:10px;
+ color:#777;
+ margin-bottom:22px
+}
+
+.confirm-actions{
+ display:flex;
+ justify-content:end;
+ gap:8px
+}
+
+@media(min-width:801px){
+ .sidebar.open~.main{margin-left:245px}
+ .main{transition:.3s}
+}
+
+@media(max-width:900px){
+ .employee-grid,
+ .analytics,
+ .payroll-grid,
+ .leave-grid{
+  grid-template-columns:1fr 1fr
+ }
+
+ .profile-details{
+  grid-template-columns:1fr 1fr
+ }
+
+ .edit-grid{
+  grid-template-columns:1fr
+ }
+
+ .scene{
+  transform:translateX(-35%) scale(.8)
+ }
+}
+
+@media(max-width:600px){
+ .top{padding:0 18px}
+ .location{display:none}
+ .home{padding:50px 25px}
+ .home h1{font-size:55px}
+ .scene{
+  left:0;
+  transform:scale(.55);
+  transform-origin:bottom left
+ }
+ .employee-grid,
+ .analytics,
+ .payroll-grid,
+ .leave-grid,
+ .profile-details{
+  grid-template-columns:1fr
+ }
+ .wrap{padding:30px 18px}
+ .heading{display:block}
+ .heading p{margin-top:12px}
+ .report-paper{
+  width:100%;
+  padding:25px
+ }
+ .att-table{
+  display:block;
+  overflow-x:auto
+ }
+}
+</style>
+</head>
+
+<body>
+
+<aside class="sidebar" id="sidebar">
+
+ <div class="logo">
+  <div class="logo-box">N</div>
+  <b>NOVA <span>HR</span></b>
+ </div>
+
+ <div class="nav-title">WORKSPACE</div>
+
+ <nav class="nav">
+  <button class="active" onclick="page('home',this)">⌂ HOME</button>
+  <button onclick="page('employees',this)">♙ EMPLOYEES</button>
+  <button onclick="page('attendance',this)">◷ ATTENDANCE</button>
+  <button onclick="page('leave',this)">✓ LEAVE APPROVALS</button>
+  <button onclick="page('payroll',this)">₹ PAYROLL</button>
+  <button onclick="page('reports',this)">▤ REPORTS</button>
+  <button onclick="page('analytics',this)">◫ ANALYTICS</button>
+ </nav>
+
+ <div class="side-bottom">
+
+  <div class="rituside" onclick="openProfile()">
+   <div class="avatar"></div>
+   <div>
+    <b>Ritu Shetty</b>
+    <small>HR Manager · NOVA HR</small>
+   </div>
+  </div>
+
+  <button class="signout" onclick="confirmLogout()">SIGN OUT</button>
+
+ </div>
+
+</aside>
+
+<main class="main" id="main">
+
+<header class="top">
+
+ <button class="menu" onclick="toggleSide()">
+  <span>☰</span>
+ </button>
+
+ <div class="location" id="location">
+  NOVA HR / HOME
+ </div>
+
+ <div class="top-right">
+  <button class="add" onclick="openAdd()">+ ADD EMPLOYEE</button>
+ </div>
+
+</header>
+
+<!-- HOME -->
+
+<section class="page active" id="home">
+
+ <div class="home">
+
+  <div class="home-copy">
+
+   <div class="eyebrow">
+    NOVA HR · HR MANAGER WORKSPACE
+   </div>
+
+   <h1>
+    GOOD MORNING,<br>
+    <span>RITU.</span>
+   </h1>
+
+   <p>
+    Manage your people better. Stay on top of attendance,
+    leave approvals, payroll and employee operations —
+    all from one workspace.
+   </p>
+
+  </div>
+
+  <div class="scene">
+
+   <div class="glow"></div>
+   <div class="wall"></div>
+
+   <div class="people">
+    <i class="person"></i>
+    <i class="person"></i>
+    <i class="person"></i>
+    <i class="person"></i>
+   </div>
+
+   <div class="monitor">
+
+    <div class="screen">
+
+     <div class="screenin">
+
+      <div class="screenhead">
+       <b>NOVA <span>HR</span></b>
+       <span>EMPLOYEE WORKSPACE</span>
+      </div>
+
+      <div class="screenbody">
+
+       <div class="sside">
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+        <i></i>
+       </div>
+
+       <div class="scontent">
+
+        <h3>People Overview</h3>
+
+        <div class="cards">
+         <div class="mini"><i></i><i></i></div>
+         <div class="mini"><i></i><i></i></div>
+         <div class="mini"><i></i><i></i></div>
+        </div>
+
+        <div class="chart"></div>
+
+       </div>
+
+      </div>
+
+     </div>
+
+    </div>
+
+    <div class="stand"></div>
+    <div class="base"></div>
+
+   </div>
+
+   <div class="keyboard"></div>
+   <div class="desk"></div>
+
+  </div>
+
+ </div>
+
+</section>
+
+<!-- EMPLOYEES -->
+
+<section class="page" id="employees">
+
+ <div class="wrap">
+
+  <div class="heading">
+
+   <div>
+    <div class="eyebrow">PEOPLE MANAGEMENT</div>
+    <h2>Employees</h2>
+   </div>
+
+   <p>
+    View and edit complete employee information.
+   </p>
+
+  </div>
+
+  <div class="grid employee-grid" id="employeeGrid"></div>
+
+  <div class="see">
+   <button onclick="showMoreEmployees()">
+    SHOW ALL 19 EMPLOYEES ↓
+   </button>
+  </div>
+
+ </div>
+
+</section>
+
+<!-- ATTENDANCE -->
+
+<section class="page" id="attendance">
+
+ <div class="wrap">
+
+  <div class="heading">
+
+   <div>
+    <div class="eyebrow">TIME & PRESENCE</div>
+    <h2>Attendance</h2>
+   </div>
+
+   <p>
+    Check every employee's attendance, login and logout times.
+   </p>
+
+  </div>
+
+  <div class="card" style="overflow:auto">
+
+   <table class="att-table">
+
+    <thead>
+     <tr>
+      <th>EMPLOYEE</th>
+      <th>DATE</th>
+      <th>STATUS</th>
+      <th>CHECK-IN</th>
+      <th>CHECK-OUT</th>
+      <th>ACTION</th>
+     </tr>
+    </thead>
+
+    <tbody id="attendanceBody"></tbody>
+
+   </table>
+
+  </div>
+
+ </div>
+
+</section>
+
+<!-- LEAVE -->
+
+<section class="page" id="leave">
+
+ <div class="wrap">
+
+  <div class="heading">
+
+   <div>
+    <div class="eyebrow">TIME OFF</div>
+    <h2>Leave Approvals</h2>
+   </div>
+
+   <p>
+    Approve or reject employee leave requests.
+   </p>
+
+  </div>
+
+  <div class="grid leave-grid">
+
+   <div class="card leave-card">
+    <strong id="totalLeave">03</strong>
+    <small>TOTAL REQUESTS</small>
+   </div>
+
+   <div class="card leave-card">
+    <strong id="approvedLeave">00</strong>
+    <small>APPROVED</small>
+   </div>
+
+   <div class="card leave-card">
+    <strong id="pendingLeave">03</strong>
+    <small>PENDING APPROVALS</small>
+   </div>
+
+  </div>
+
+  <div class="card" id="leaveList"></div>
+
+ </div>
+
+</section>
+
+<!-- PAYROLL -->
+
+<section class="page" id="payroll">
+
+ <div class="wrap">
+
+  <div class="heading">
+
+   <div>
+    <div class="eyebrow">COMPENSATION</div>
+    <h2>Payroll</h2>
+   </div>
+
+   <p>
+    Edit employee salary information and save changes.
+   </p>
+
+  </div>
+
+  <div class="grid payroll-grid">
+
+   <div class="salary">
+
+    <small>CURRENT PAYROLL · AUGUST 2026</small>
+
+    <div class="salary-person" id="currentPayrollPerson">
+     Rahul
+    </div>
+
+    <h3 id="currentPayrollAmount">
+     ₹38,000
+    </h3>
+
+    <p>
+     Payroll processing active · Next payroll 31 August 2026
+    </p>
+
+   </div>
+
+   <div class="card edit-pay">
+
+    <label>SELECT EMPLOYEE</label>
+
+    <select id="payEmployee" onchange="loadPay()"></select>
+
+    <label>BASIC SALARY</label>
+    <input id="basic" type="number">
+
+    <label>ALLOWANCES</label>
+    <input id="allowance" type="number">
+
+    <label>DEDUCTIONS</label>
+    <input id="deduction" type="number">
+
+    <label>NET SALARY</label>
+    <input id="net" type="number">
+
+    <button class="btn primary" onclick="savePay()">
+     SAVE PAYROLL
+    </button>
+
+   </div>
+
+  </div>
+
+ </div>
+
+</section>
+
+<!-- REPORTS -->
+
+<section class="page" id="reports">
+
+ <div class="wrap">
+
+  <div class="heading">
+
+   <div>
+    <div class="eyebrow">DOCUMENTS</div>
+    <h2>Reports</h2>
+   </div>
+
+   <p>
+    Choose the report you want and generate the complete A4 report.
+   </p>
+
+  </div>
+
+  <div class="report-options">
+
+   <button class="btn primary"
+    onclick="generateReport('Employee Directory')">
+    EMPLOYEE DIRECTORY
+   </button>
+
+   <button class="btn primary"
+    onclick="generateReport('Attendance')">
+    ATTENDANCE
+   </button>
+
+   <button class="btn primary"
+    onclick="generateReport('Payroll')">
+    PAYROLL
+   </button>
+
+  </div>
+
+  <div class="report-box" id="reportEmpty">
+   Select a report above to generate the complete report.
+  </div>
+
+  <div class="report-paper" id="reportPaper"></div>
+
+ </div>
+
+</section>
+
+<!-- ANALYTICS -->
+
+<section class="page" id="analytics">
+
+ <div class="wrap">
+
+  <div class="heading">
+
+   <div>
+    <div class="eyebrow">INSIGHTS</div>
+    <h2>Analytics</h2>
+   </div>
+
+   <p>
+    Visual overview with employee names, dates and operational details.
+   </p>
+
+  </div>
+
+  <div class="grid analytics">
+
+   <div class="graph-card">
+    <h3>Attendance Trend</h3>
+
+    <div class="bargraph">
+     <i class="bar" style="height:75%">
+      <span>Mon</span>
+     </i>
+
+     <i class="bar" style="height:90%">
+      <span>Tue</span>
+     </i>
+
+     <i class="bar" style="height:65%">
+      <span>Wed</span>
+     </i>
+
+     <i class="bar" style="height:88%">
+      <span>Thu</span>
+     </i>
+
+     <i class="bar" style="height:95%">
+      <span>Fri</span>
+     </i>
+    </div>
+
+    <div class="analytics-data">
+     Riya · Present · 09:08–18:02<br>
+     Rahul · Present · 09:16–17:55<br>
+     Meera · Present · 09:02–18:10
+    </div>
+   </div>
+
+   <div class="graph-card">
+    <h3>Leave Usage</h3>
+
+    <div class="bargraph">
+     <i class="bar" style="height:35%">
+      <span>Riya</span>
+     </i>
+
+     <i class="bar" style="height:70%">
+      <span>Rahul</span>
+     </i>
+
+     <i class="bar" style="height:45%">
+      <span>Meera</span>
+     </i>
+
+     <i class="bar" style="height:25%">
+      <span>Snehal</span>
+     </i>
+    </div>
+
+    <div class="analytics-data">
+     August 2026 · 4 approved leaves<br>
+     Rahul · 2 days · Approved<br>
+     Meera · 1 day · Approved<br>
+     Snehal · 1 day · Approved
+    </div>
+   </div>
+
+   <div class="graph-card">
+    <h3>Payroll Distribution</h3>
+
+    <div class="bargraph">
+     <i class="bar" style="height:80%">
+      <span>Riya</span>
+     </i>
+
+     <i class="bar" style="height:65%">
+      <span>Rahul</span>
+     </i>
+
+     <i class="bar" style="height:72%">
+      <span>Meera</span>
+     </i>
+
+     <i class="bar" style="height:58%">
+      <span>Snehal</span>
+     </i>
+    </div>
+
+    <div class="analytics-data">
+     Riya · ₹45,000<br>
+     Rahul · ₹38,000<br>
+     Meera · ₹41,000<br>
+     Snehal · ₹35,000
+    </div>
+   </div>
+
+   <div class="graph-card">
+    <h3>Employee Status</h3>
+
+    <div class="bargraph">
+     <i class="bar" style="height:90%">
+      <span>Present</span>
+     </i>
+
+     <i class="bar" style="height:25%">
+      <span>Leave</span>
+     </i>
+
+     <i class="bar" style="height:10%">
+      <span>Absent</span>
+     </i>
+    </div>
+
+    <div class="analytics-data">
+     22 August 2026<br>
+     Present: 18 employees · Leave: 3 · Absent: 1
+    </div>
+   </div>
+
+  </div>
+
+ </div>
+
+</section>
+
+</main>
+
+<!-- RITU PROFILE -->
+
+<div class="modal" id="profileModal">
+
+ <div class="modal-box">
+
+  <button class="close" onclick="closeModal('profileModal')">
+   ×
+  </button>
+
+  <div class="profile-head">
+
+   <div class="avatar"></div>
+
+   <div>
+    <h2>Ritu Shetty</h2>
+    <p>HR Manager · NOVA HR</p>
+   </div>
+
+  </div>
+
+  <div class="profile-details">
+
+   <div class="card">
+    <small>FULL NAME</small>
+    <h4>Ritu Shetty</h4>
+   </div>
+
+   <div class="card">
+    <small>EMAIL</small>
+    <h4>ritu@novahr.com</h4>
+   </div>
+
+   <div class="card">
+    <small>PHONE</small>
+    <h4>+91 98765 43210</h4>
+   </div>
+
+   <div class="card">
+    <small>ADDRESS</small>
+    <h4>Bengaluru, Karnataka</h4>
+   </div>
+
+   <div class="card">
+    <small>DEPARTMENT</small>
+    <h4>Human Resources</h4>
+   </div>
+
+   <div class="card">
+    <small>EMPLOYEE ID</small>
+    <h4>NOVA-HR-001</h4>
+   </div>
+
+  </div>
+
+  <div class="profile-attendance card">
+
+   <h3>My Attendance</h3>
+
+   <div class="time-display">
+
+    <div class="time-box">
+     <small>CHECK-IN TIME</small>
+     <b id="rituCheckInTime">09:02 AM</b>
+    </div>
+
+    <div class="time-box">
+     <small>CHECK-OUT TIME</small>
+     <b id="rituCheckOutTime">06:04 PM</b>
+    </div>
+
+   </div>
+
+   <div class="ritu-attendance-actions">
+
+    <button class="check-btn"
+     onclick="rituCheckIn()">
+     CHECK IN
+    </button>
+
+    <button class="check-btn out"
+     onclick="rituCheckOut()">
+     CHECK OUT
+    </button>
+
+   </div>
+
+   <table class="att-table">
+
+    <tr>
+     <th>DATE</th>
+     <th>STATUS</th>
+     <th>CHECK-IN</th>
+     <th>CHECK-OUT</th>
+    </tr>
+
+    <tr>
+     <td>22 Aug 2026</td>
+     <td>
+      <span class="status present">PRESENT</span>
+     </td>
+     <td id="rituTodayIn">09:02 AM</td>
+     <td id="rituTodayOut">06:04 PM</td>
+    </tr>
+
+    <tr>
+     <td>21 Aug 2026</td>
+     <td>
+      <span class="status present">PRESENT</span>
+     </td>
+     <td>09:10 AM</td>
+     <td>06:01 PM</td>
+    </tr>
+
+    <tr>
+     <td>20 Aug 2026</td>
+     <td>
+      <span class="status present">PRESENT</span>
+     </td>
+     <td>09:05 AM</td>
+     <td>06:00 PM</td>
+    </tr>
+
+   </table>
+
+   <br>
+
+   <small style="color:#777">
+    Ritu's own attendance cannot be edited.
+   </small>
+
+  </div>
+
+ </div>
+
+</div>
+
+<!-- ADD EMPLOYEE -->
+
+<div class="modal" id="addModal">
+
+ <div class="modal-box"
+  style="min-height:auto;max-width:700px;margin:auto">
+
+  <button class="close"
+   onclick="closeModal('addModal')">
+   ×
+  </button>
+
+  <h2>Add Employee</h2>
+
+  <br>
+
+  <div class="profile-details">
+
+   <div class="card">
+    <label>Name</label>
+    <input id="newName" placeholder="Employee name">
+   </div>
+
+   <div class="card">
+    <label>Designation</label>
+    <input id="newRole" placeholder="Designation">
+   </div>
+
+   <div class="card">
+    <label>Email</label>
+    <input id="newEmail" placeholder="Email">
+   </div>
+
+   <div class="card">
+    <label>Phone</label>
+    <input id="newPhone" placeholder="Phone">
+   </div>
+
+   <div class="card">
+    <label>Address</label>
+    <input id="newAddress" placeholder="Address">
+   </div>
+
+   <div class="card">
+    <label>Salary</label>
+    <input id="newSalary" type="number" placeholder="Salary">
+   </div>
+
+  </div>
+
+  <br>
+
+  <button class="btn primary"
+   onclick="addEmployee()">
+   SAVE EMPLOYEE
+  </button>
+
+ </div>
+
+</div>
+
+<!-- EDIT EMPLOYEE -->
+
+<div class="modal" id="editModal">
+
+ <div class="modal-box edit-modal-box">
+
+  <button class="close"
+   onclick="closeModal('editModal')">
+   ×
+  </button>
+
+  <div class="eyebrow">EMPLOYEE MANAGEMENT</div>
+
+  <h2>Edit Employee Details</h2>
+
+  <p style="font-size:10px;color:#777;margin-top:7px">
+   HR can edit all employee information from this panel.
+  </p>
+
+  <br>
+
+  <div class="edit-grid">
+
+   <div class="edit-field">
+    <label>FULL NAME</label>
+    <input id="editName">
+   </div>
+
+   <div class="edit-field">
+    <label>DESIGNATION</label>
+    <input id="editRole">
+   </div>
+
+   <div class="edit-field">
+    <label>EMAIL</label>
+    <input id="editEmail">
+   </div>
+
+   <div class="edit-field">
+    <label>PHONE</label>
+    <input id="editPhone">
+   </div>
+
+   <div class="edit-field">
+    <label>ADDRESS</label>
+    <input id="editAddress">
+   </div>
+
+   <div class="edit-field">
+    <label>SALARY</label>
+    <input id="editSalary" type="number">
+   </div>
+
+   <div class="edit-field">
+    <label>ATTENDANCE STATUS</label>
+
+    <select id="editStatus">
+     <option>Present</option>
+     <option>Leave</option>
+     <option>Absent</option>
+    </select>
+
+   </div>
+
+   <div class="edit-field">
+    <label>CHECK-IN</label>
+    <input id="editIn">
+   </div>
+
+   <div class="edit-field">
+    <label>CHECK-OUT</label>
+    <input id="editOut">
+   </div>
+
+  </div>
+
+  <div class="edit-actions">
+
+   <button class="btn"
+    onclick="closeModal('editModal')">
+    CANCEL
+   </button>
+
+   <button class="btn primary"
+    onclick="saveEmployeeEdit()">
+    SAVE ALL DETAILS
+   </button>
+
+  </div>
+
+ </div>
+
+</div>
+
+<!-- CONFIRM -->
+
+<div class="confirm" id="confirm">
+
+ <div class="confirm-box">
+
+  <h3>Sign out?</h3>
+
+  <p>
+   Are you sure you want to sign out of NOVA HR?
+  </p>
+
+  <div class="confirm-actions">
+
+   <button class="btn"
+    onclick="closeConfirm()">
+    CANCEL
+   </button>
+
+   <button class="btn primary"
+    onclick="logout()">
+    SIGN OUT
+   </button>
+
+  </div>
+
+ </div>
+
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+
+/* =========================
+   19 EMPLOYEES
+========================= */
+
+const employees=[
+
+ {
+  name:"Rahul",
+  role:"Software Engineer",
+  email:"rahul@novahr.com",
+  phone:"+91 98765 10001",
+  address:"Bengaluru",
+  salary:38000,
+  status:"Present",
+  in:"09:16 AM",
+  out:"05:55 PM"
+ },
+
+ {
+  name:"Meera",
+  role:"Marketing Executive",
+  email:"meera@novahr.com",
+  phone:"+91 98765 10002",
+  address:"Bengaluru",
+  salary:41000,
+  status:"Present",
+  in:"09:02 AM",
+  out:"06:10 PM"
+ },
+
+ {
+  name:"Snehal",
+  role:"Finance Associate",
+  email:"snehal@novahr.com",
+  phone:"+91 98765 10003",
+  address:"Bengaluru",
+  salary:35000,
+  status:"Present",
+  in:"09:11 AM",
+  out:"05:48 PM"
+ },
+
+ {
+  name:"Arjun",
+  role:"Product Designer",
+  email:"arjun@novahr.com",
+  phone:"+91 98765 10004",
+  address:"Mysuru",
+  salary:42000,
+  status:"Present",
+  in:"09:05 AM",
+  out:"06:02 PM"
+ },
+
+ {
+  name:"Kavya",
+  role:"Sales Executive",
+  email:"kavya@novahr.com",
+  phone:"+91 98765 10005",
+  address:"Bengaluru",
+  salary:36000,
+  status:"Present",
+  in:"09:20 AM",
+  out:"05:50 PM"
+ },
+
+ {
+  name:"Aditya",
+  role:"Data Analyst",
+  email:"aditya@novahr.com",
+  phone:"+91 98765 10006",
+  address:"Bengaluru",
+  salary:44000,
+  status:"Present",
+  in:"09:00 AM",
+  out:"06:08 PM"
+ },
+
+ {
+  name:"Riya",
+  role:"HR Executive",
+  email:"riya@novahr.com",
+  phone:"+91 98765 10007",
+  address:"Bengaluru",
+  salary:45000,
+  status:"Present",
+  in:"09:08 AM",
+  out:"06:02 PM"
+ },
+
+ {
+  name:"Vikram",
+  role:"Backend Developer",
+  email:"vikram@novahr.com",
+  phone:"+91 98765 10008",
+  address:"Bengaluru",
+  salary:47000,
+  status:"Present",
+  in:"09:12 AM",
+  out:"06:15 PM"
+ },
+
+ {
+  name:"Ananya",
+  role:"UI Designer",
+  email:"ananya@novahr.com",
+  phone:"+91 98765 10009",
+  address:"Bengaluru",
+  salary:39000,
+  status:"Present",
+  in:"09:04 AM",
+  out:"05:59 PM"
+ },
+
+ {
+  name:"Karthik",
+  role:"Operations Associate",
+  email:"karthik@novahr.com",
+  phone:"+91 98765 10010",
+  address:"Bengaluru",
+  salary:34000,
+  status:"Present",
+  in:"09:18 AM",
+  out:"05:45 PM"
+ },
+
+ {
+  name:"Pooja",
+  role:"Recruitment Specialist",
+  email:"pooja@novahr.com",
+  phone:"+91 98765 10011",
+  address:"Bengaluru",
+  salary:37000,
+  status:"Present",
+  in:"09:07 AM",
+  out:"06:03 PM"
+ },
+
+ {
+  name:"Nikhil",
+  role:"Cloud Engineer",
+  email:"nikhil@novahr.com",
+  phone:"+91 98765 10012",
+  address:"Bengaluru",
+  salary:48000,
+  status:"Present",
+  in:"09:01 AM",
+  out:"06:12 PM"
+ },
+
+ {
+  name:"Aishwarya",
+  role:"Business Analyst",
+  email:"aishwarya@novahr.com",
+  phone:"+91 98765 10013",
+  address:"Bengaluru",
+  salary:43000,
+  status:"Present",
+  in:"09:10 AM",
+  out:"06:00 PM"
+ },
+
+ {
+  name:"Manoj",
+  role:"QA Engineer",
+  email:"manoj@novahr.com",
+  phone:"+91 98765 10014",
+  address:"Bengaluru",
+  salary:36000,
+  status:"Present",
+  in:"09:14 AM",
+  out:"05:58 PM"
+ },
+
+ {
+  name:"Divya",
+  role:"Content Strategist",
+  email:"divya@novahr.com",
+  phone:"+91 98765 10015",
+  address:"Bengaluru",
+  salary:33000,
+  status:"Leave",
+  in:"—",
+  out:"—"
+ },
+
+ {
+  name:"Sanjay",
+  role:"System Administrator",
+  email:"sanjay@novahr.com",
+  phone:"+91 98765 10016",
+  address:"Bengaluru",
+  salary:46000,
+  status:"Present",
+  in:"09:06 AM",
+  out:"06:05 PM"
+ },
+
+ {
+  name:"Priya",
+  role:"Customer Success Executive",
+  email:"priya@novahr.com",
+  phone:"+91 98765 10017",
+  address:"Bengaluru",
+  salary:35000,
+  status:"Present",
+  in:"09:09 AM",
+  out:"05:52 PM"
+ },
+
+ {
+  name:"Varun",
+  role:"DevOps Engineer",
+  email:"varun@novahr.com",
+  phone:"+91 98765 10018",
+  address:"Bengaluru",
+  salary:50000,
+  status:"Present",
+  in:"08:58 AM",
+  out:"06:18 PM"
+ },
+
+ {
+  name:"Neha",
+  role:"Finance Executive",
+  email:"neha@novahr.com",
+  phone:"+91 98765 10019",
+  address:"Bengaluru",
+  salary:38000,
+  status:"Present",
+  in:"09:13 AM",
+  out:"05:56 PM"
+ }
+
+];
+
+let shown=19;
+let editingIndex=null;
+
+/* =========================
+   SIDEBAR / PAGES
+========================= */
+
+function toggleSide(){
+ document.getElementById("sidebar").classList.toggle("open");
+}
+
+function page(id,btn){
+
+ document.querySelectorAll(".page")
+  .forEach(x=>x.classList.remove("active"));
+
+ document.getElementById(id)
+  .classList.add("active");
+
+ document.querySelectorAll(".nav button")
+  .forEach(x=>x.classList.remove("active"));
+
+ if(btn)btn.classList.add("active");
+
+ document.getElementById("location").innerHTML=
+ "NOVA HR / "+id.replace("-"," ").toUpperCase();
+
+ closeSide();
+
+ window.scrollTo({
+  top:0,
+  behavior:"smooth"
+ });
+}
+
+function closeSide(){
+ document.getElementById("sidebar")
+  .classList.remove("open");
+}
+
+document.getElementById("main").onclick=e=>{
+ if(window.innerWidth<=800 &&
+    !e.target.closest(".menu")){
+  closeSide();
+ }
+};
+
+/* =========================
+   EMPLOYEES
+========================= */
+
+function statusClass(status){
+
+ if(status==="Present")return "present";
+ if(status==="Absent")return "absent";
+
+ return "pending";
+}
+
+function renderEmployees(){
+
+ let html="";
+
+ employees.slice(0,shown).forEach((e,i)=>{
+
+  html+=`
+
+  <div class="card">
+
+   <div class="emp-top">
+
+    <div class="emp-avatar">
+     ${e.name[0]}
+    </div>
+
+    <div>
+     <div class="emp-name">
+      ${e.name}
+     </div>
+
+     <div class="emp-role">
+      ${e.role}
+     </div>
+    </div>
+
+   </div>
+
+   <div class="details">
+
+    <div>
+     EMAIL
+     <b>${e.email}</b>
+    </div>
+
+    <div>
+     PHONE
+     <b>${e.phone}</b>
+    </div>
+
+    <div>
+     ADDRESS
+     <b>${e.address}</b>
+    </div>
+
+    <div>
+     SALARY
+     <b>₹${Number(e.salary).toLocaleString()}</b>
+    </div>
+
+    <div>
+     STATUS
+     <b>
+      <span class="status ${statusClass(e.status)}">
+       ${e.status.toUpperCase()}
+      </span>
+     </b>
+    </div>
+
+   </div>
+
+   <div class="actions">
+
+    <button
+     class="btn primary"
+     onclick="editEmployee(${i})">
+     EDIT DETAILS
+    </button>
+
+   </div>
+
+  </div>
+
+  `;
+ });
+
+ document.getElementById("employeeGrid")
+  .innerHTML=html;
+}
+
+function showMoreEmployees(){
+ shown=employees.length;
+ renderEmployees();
+ toast("All 19 employees are visible.");
+}
+
+/* =========================
+   FULL EDIT EMPLOYEE
+========================= */
+
+function editEmployee(i){
+
+ editingIndex=i;
+
+ const e=employees[i];
+
+ document.getElementById("editName").value=e.name;
+ document.getElementById("editRole").value=e.role;
+ document.getElementById("editEmail").value=e.email;
+ document.getElementById("editPhone").value=e.phone;
+ document.getElementById("editAddress").value=e.address;
+ document.getElementById("editSalary").value=e.salary;
+ document.getElementById("editStatus").value=e.status;
+ document.getElementById("editIn").value=e.in;
+ document.getElementById("editOut").value=e.out;
+
+ document.getElementById("editModal")
+  .classList.add("show");
+}
+
+function saveEmployeeEdit(){
+
+ if(editingIndex===null)return;
+
+ const e=employees[editingIndex];
+
+ e.name=document.getElementById("editName").value;
+ e.role=document.getElementById("editRole").value;
+ e.email=document.getElementById("editEmail").value;
+ e.phone=document.getElementById("editPhone").value;
+ e.address=document.getElementById("editAddress").value;
+ e.salary=Number(document.getElementById("editSalary").value);
+ e.status=document.getElementById("editStatus").value;
+ e.in=document.getElementById("editIn").value;
+ e.out=document.getElementById("editOut").value;
+
+ renderEmployees();
+ renderAttendance();
+ setupPay();
+
+ closeModal("editModal");
+
+ toast("All employee details updated.");
+
+ editingIndex=null;
+}
+
+/* =========================
+   ATTENDANCE
+========================= */
+
+function renderAttendance(){
+
+ document.getElementById("attendanceBody")
+ .innerHTML=employees.map((e,i)=>`
+
+ <tr>
+
+  <td>
+   <b>${e.name}</b>
+   <br>
+   <small>${e.role}</small>
+  </td>
+
+  <td>
+   22 Aug 2026
+  </td>
+
+  <td>
+
+   <select
+    onchange="changeStatus(${i},this.value)">
+
+    <option
+     ${e.status==="Present"?"selected":""}>
+     Present
+    </option>
+
+    <option
+     ${e.status==="Leave"?"selected":""}>
+     Leave
+    </option>
+
+    <option
+     ${e.status==="Absent"?"selected":""}>
+     Absent
+    </option>
+
+   </select>
+
+  </td>
+
+  <td>
+   <input
+    value="${e.in}"
+    onchange="employees[${i}].in=this.value">
+  </td>
+
+  <td>
+   <input
+    value="${e.out}"
+    onchange="employees[${i}].out=this.value">
+  </td>
+
+  <td>
+
+   <button
+    class="save"
+    id="saveAttendance${i}"
+    onclick="saveAttendance(${i})">
+
+    SAVE
+
+   </button>
+
+  </td>
+
+ </tr>
+
+ `).join("");
+}
+
+function changeStatus(i,v){
+ employees[i].status=v;
+}
+
+function saveAttendance(i){
+
+ const button=
+ document.getElementById("saveAttendance"+i);
+
+ button.classList.add("saved");
+ button.textContent="✓ SAVED";
+
+ button.disabled=true;
+
+ toast(employees[i].name+" attendance saved.");
+
+ setTimeout(()=>{
+
+  button.classList.remove("saved");
+  button.textContent="SAVE";
+  button.disabled=false;
+
+ },3000);
+}
+
+/* =========================
+   LEAVE APPROVALS
+========================= */
+
+const leaves=[
+
+ {
+  name:"Rahul",
+  type:"Casual Leave",
+  dates:"25–26 Aug 2026",
+  reason:"Family function",
+  status:"Pending"
+ },
+
+ {
+  name:"Meera",
+  type:"Sick Leave",
+  dates:"27 Aug 2026",
+  reason:"Medical appointment",
+  status:"Pending"
+ },
+
+ {
+  name:"Snehal",
+  type:"Earned Leave",
+  dates:"29 Aug 2026",
+  reason:"Personal work",
+  status:"Pending"
+ }
+
+];
+
+function renderLeaves(){
+
+ document.getElementById("totalLeave")
+  .textContent=String(leaves.length).padStart(2,"0");
+
+ const approved=
+ leaves.filter(x=>x.status==="Approved").length;
+
+ const pending=
+ leaves.filter(x=>x.status==="Pending").length;
+
+ document.getElementById("approvedLeave")
+  .textContent=String(approved).padStart(2,"0");
+
+ document.getElementById("pendingLeave")
+  .textContent=String(pending).padStart(2,"0");
+
+ document.getElementById("leaveList")
+ .innerHTML=leaves.map((l,i)=>`
+
+ <div class="leave-row">
+
+  <div>
+
+   <b>${l.name}</b>
+
+   <br>
+
+   <small>
+    ${l.type} · ${l.dates} · ${l.reason}
+   </small>
+
+  </div>
+
+  <div>
+
+   ${
+    l.status==="Pending"
+
+    ?
+
+    `
+    <button
+     class="approve"
+     onclick="approve(${i})">
+     APPROVE
+    </button>
+
+    <button
+     class="reject"
+     onclick="reject(${i})">
+     REJECT
+    </button>
+    `
+
+    :
+
+    `
+    <button class="btn done">
+     ${l.status==="Approved"?"✓ APPROVED":"✕ REJECTED"}
+    </button>
+    `
+   }
+
+  </div>
+
+ </div>
+
+ `).join("");
+}
+
+function approve(i){
+
+ leaves[i].status="Approved";
+
+ renderLeaves();
+
+ toast(leaves[i].name+" leave approved.");
+}
+
+function reject(i){
+
+ leaves[i].status="Rejected";
+
+ renderLeaves();
+
+ toast(leaves[i].name+" leave rejected.");
+}
+
+/* =========================
+   PAYROLL
+========================= */
+
+function loadPay(){
+
+ const index=
+ document.getElementById("payEmployee")
+ .selectedIndex;
+
+ const e=
+ employees[index]||employees[0];
+
+ document.getElementById("basic").value=
+ Math.round(e.salary*.62);
+
+ document.getElementById("allowance").value=
+ Math.round(e.salary*.45);
+
+ document.getElementById("deduction").value=
+ Math.round(e.salary*.07);
+
+ document.getElementById("net").value=
+ e.salary;
+
+ /* IMPORTANT:
+    CURRENT PAYROLL NOW CHANGES
+    WITH SELECTED EMPLOYEE
+ */
+
+ document.getElementById("currentPayrollPerson")
+ .textContent=e.name;
+
+ document.getElementById("currentPayrollAmount")
+ .textContent=
+ "₹"+Number(e.salary).toLocaleString();
+}
+
+function setupPay(){
+
+ document.getElementById("payEmployee")
+ .innerHTML=
+ employees.map(e=>
+ `<option>${e.name}</option>`
+ ).join("");
+
+ loadPay();
+}
+
+function savePay(){
+
+ const i=
+ document.getElementById("payEmployee")
+ .selectedIndex;
+
+ employees[i].salary=
+ Number(document.getElementById("net").value);
+
+ renderEmployees();
+
+ setupPay();
+
+ document.getElementById("payEmployee")
+ .selectedIndex=i;
+
+ loadPay();
+
+ toast("Payroll saved for "+employees[i].name+".");
+}
+
+/* =========================
+   REPORTS
+========================= */
+
+function generateReport(type){
+
+ document.getElementById("reportEmpty")
+ .style.display="none";
+
+ let rows="";
+
+ if(type==="Employee Directory"){
+
+  rows=employees.map(e=>`
+
+   <tr>
+    <td>${e.name}</td>
+    <td>${e.role}</td>
+    <td>${e.email}</td>
+    <td>${e.phone}</td>
+    <td>${e.address}</td>
+   </tr>
+
+  `).join("");
+
+ }
+
+ if(type==="Attendance"){
+
+  rows=employees.map(e=>`
+
+   <tr>
+    <td>${e.name}</td>
+    <td>22 Aug 2026</td>
+    <td>${e.status}</td>
+    <td>${e.in}</td>
+    <td>${e.out}</td>
+   </tr>
+
+  `).join("");
+
+ }
+
+ if(type==="Payroll"){
+
+  rows=employees.map(e=>`
+
+   <tr>
+    <td>${e.name}</td>
+    <td>${e.role}</td>
+    <td>₹${Number(e.salary).toLocaleString()}</td>
+    <td>August 2026</td>
+    <td>Active</td>
+   </tr>
+
+  `).join("");
+
+ }
+
+ document.getElementById("reportPaper")
+ .innerHTML=`
+
+ <h1>NOVA HR</h1>
+
+ <p>
+  ${type} Report · Generated 22 August 2026
+ </p>
+
+ <h3>${type}</h3>
+
+ <table class="report-table">
+
+ ${
+  type==="Employee Directory"
+
+  ?
+
+  `
+  <tr>
+   <th>NAME</th>
+   <th>DESIGNATION</th>
+   <th>EMAIL</th>
+   <th>PHONE</th>
+   <th>ADDRESS</th>
+  </tr>
+  `
+
+  :
+
+  type==="Attendance"
+
+  ?
+
+  `
+  <tr>
+   <th>EMPLOYEE</th>
+   <th>DATE</th>
+   <th>STATUS</th>
+   <th>CHECK-IN</th>
+   <th>CHECK-OUT</th>
+  </tr>
+  `
+
+  :
+
+  `
+  <tr>
+   <th>EMPLOYEE</th>
+   <th>DESIGNATION</th>
+   <th>NET SALARY</th>
+   <th>MONTH</th>
+   <th>STATUS</th>
+  </tr>
+  `
+ }
+
+ ${rows}
+
+ </table>
+
+ <h3>Summary</h3>
+
+ <p>
+  Total employees: ${employees.length}<br>
+  Report generated by: Ritu Shetty, HR Manager<br>
+  Company: NOVA HR
+ </p>
+
+ `;
+
+ document.getElementById("reportPaper")
+ .classList.add("show");
+
+ toast(type+" report generated.");
+}
+
+/* =========================
+   PROFILE
+========================= */
+
+function openProfile(){
+
+ document.getElementById("profileModal")
+ .classList.add("show");
+
+ closeSide();
+}
+
+function rituCheckIn(){
+
+ const now=new Date();
+
+ const time=
+ now.toLocaleTimeString("en-IN",{
+  hour:"2-digit",
+  minute:"2-digit",
+  hour12:true
+ });
+
+ document.getElementById("rituCheckInTime")
+ .textContent=time;
+
+ document.getElementById("rituTodayIn")
+ .textContent=time;
+
+ toast("Ritu checked in at "+time+".");
+}
+
+function rituCheckOut(){
+
+ const now=new Date();
+
+ const time=
+ now.toLocaleTimeString("en-IN",{
+  hour:"2-digit",
+  minute:"2-digit",
+  hour12:true
+ });
+
+ document.getElementById("rituCheckOutTime")
+ .textContent=time;
+
+ document.getElementById("rituTodayOut")
+ .textContent=time;
+
+ toast("Ritu checked out at "+time+".");
+}
+
+/* =========================
+   MODALS
+========================= */
+
+function openAdd(){
+ document.getElementById("addModal")
+ .classList.add("show");
+}
+
+function closeModal(id){
+ document.getElementById(id)
+ .classList.remove("show");
+}
+
+/* =========================
+   ADD EMPLOYEE
+========================= */
+
+function addEmployee(){
+
+ let e={
+
+  name:
+   document.getElementById("newName").value||
+   "New Employee",
+
+  role:
+   document.getElementById("newRole").value||
+   "Associate",
+
+  email:
+   document.getElementById("newEmail").value||
+   "employee@novahr.com",
+
+  phone:
+   document.getElementById("newPhone").value||
+   "+91 90000 00000",
+
+  address:
+   document.getElementById("newAddress").value||
+   "Bengaluru",
+
+  salary:
+   Number(document.getElementById("newSalary").value)||
+   30000,
+
+  status:"Present",
+  in:"09:00 AM",
+  out:"06:00 PM"
+
+ };
+
+ employees.push(e);
+
+ shown=employees.length;
+
+ renderEmployees();
+ renderAttendance();
+ setupPay();
+
+ closeModal("addModal");
+
+ toast("Employee added successfully.");
+}
+
+/* =========================
+   LOGOUT
+========================= */
+
+function confirmLogout(){
+ document.getElementById("confirm")
+ .classList.add("show");
+}
+
+function closeConfirm(){
+ document.getElementById("confirm")
+ .classList.remove("show");
+}
+
+function logout(){
+ window.location.href="index.html";
+}
+
+/* =========================
+   TOAST
+========================= */
+
+function toast(msg){
+
+ let t=
+ document.getElementById("toast");
+
+ t.textContent=msg;
+
+ t.classList.add("show");
+
+ setTimeout(()=>{
+  t.classList.remove("show");
+ },2500);
+}
+
+/* =========================
+   INITIAL LOAD
+========================= */
+
+renderEmployees();
+renderAttendance();
+renderLeaves();
+setupPay();
+
+</script>
+
+</body>
+</html>
