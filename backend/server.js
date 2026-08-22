@@ -14,9 +14,12 @@ mongoose.connect(process.env.MONGO_URI)
 
   const authRoutes = require('./routes/auth');
 const attendanceRoutes = require('./routes/attendance');
-
+const leaveRoutes = require('./routes/leave');
+const employeeRoutes = require('./routes/employee');
 app.use('/api/auth', authRoutes);
 app.use('/api/attendance', attendanceRoutes);
+app.use('/api/leave', leaveRoutes);
+app.use('/api/employee', employeeRoutes);
 app.get('/', (req, res) => {
   res.send("Dayflow API is running!");
 });
