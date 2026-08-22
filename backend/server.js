@@ -12,6 +12,11 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Successfully Connected!"))
   .catch((err) => console.log("Database connection failed:", err));
 
+  const authRoutes = require('./routes/auth');
+const attendanceRoutes = require('./routes/attendance');
+
+app.use('/api/auth', authRoutes);
+app.use('/api/attendance', attendanceRoutes);
 app.get('/', (req, res) => {
   res.send("Dayflow API is running!");
 });
